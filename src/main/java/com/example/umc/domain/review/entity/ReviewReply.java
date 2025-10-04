@@ -1,16 +1,18 @@
 package com.example.umc.domain.review.entity;
 
 import com.example.umc.domain.review.enums.SenderType;
+import com.example.umc.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Entity
 @Table(name = "review_replies")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
-public class ReviewReply {
+@SuperBuilder
+public class ReviewReply extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

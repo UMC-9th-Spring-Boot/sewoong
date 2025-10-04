@@ -2,8 +2,10 @@ package com.example.umc.domain.mission.entity;
 
 import com.example.umc.domain.mission.enums.Region;
 import com.example.umc.domain.store.entity.Store;
+import com.example.umc.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,8 +15,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
-public class Mission {
+@SuperBuilder
+public class Mission extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

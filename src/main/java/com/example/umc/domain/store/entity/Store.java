@@ -1,8 +1,10 @@
 package com.example.umc.domain.store.entity;
 
 import com.example.umc.domain.store.enums.StoreType;
+import com.example.umc.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -13,8 +15,8 @@ import java.util.List;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
-@Builder
-public class Store {
+@SuperBuilder
+public class Store extends BaseEntity {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
