@@ -4,6 +4,7 @@ import com.example.umc.domain.user.enums.Gender;
 import com.example.umc.domain.user.enums.SocialType;
 import com.example.umc.domain.user.enums.UserStatus;
 import com.example.umc.domain.user.enums.UserType;
+import com.example.umc.domain.inquiry.entity.Inquiry;
 import com.example.umc.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -76,4 +77,8 @@ public class User extends BaseEntity {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @Builder.Default
   private List<UserPrefer> userPrefers = new ArrayList<>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<Inquiry> inquiries = new ArrayList<>();
 }
