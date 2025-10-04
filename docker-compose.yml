@@ -32,3 +32,4 @@ volumes:
 networks:
   umc-9th-network:
     driver: bridge
+    
