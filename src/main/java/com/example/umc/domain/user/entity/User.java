@@ -30,7 +30,7 @@ public class User extends BaseEntity {
   @Column(name = "user_id")
   private Long userId;
 
-  @Column(name = "name", nullable = false, length = 100)
+  @Column(name = "name", nullable = false, length = 50)
   private String name;
 
   @Enumerated(EnumType.STRING)
