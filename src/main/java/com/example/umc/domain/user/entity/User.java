@@ -5,6 +5,9 @@ import com.example.umc.domain.user.enums.SocialType;
 import com.example.umc.domain.user.enums.UserStatus;
 import com.example.umc.domain.user.enums.UserType;
 import com.example.umc.domain.inquiry.entity.Inquiry;
+import com.example.umc.domain.mission.entity.UserMission;
+import com.example.umc.domain.review.entity.Review;
+import com.example.umc.domain.notification.entity.Notification;
 import com.example.umc.global.common.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -81,4 +84,16 @@ public class User extends BaseEntity {
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
   @Builder.Default
   private List<Inquiry> inquiries = new ArrayList<>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<UserMission> userMissions = new ArrayList<>();
+
+  @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<Review> reviews = new ArrayList<>();
+
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+  @Builder.Default
+  private List<Notification> notifications = new ArrayList<>();
 }
