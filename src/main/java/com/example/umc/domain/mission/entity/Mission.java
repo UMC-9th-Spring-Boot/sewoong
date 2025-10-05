@@ -36,5 +36,4 @@ public class Mission extends BaseEntity {
 
   @Column(name = "mission_point", nullable = false)
   private Long missionPoint;
-
 }
