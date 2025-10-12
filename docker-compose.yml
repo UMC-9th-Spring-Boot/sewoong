@@ -5,10 +5,8 @@ services:
     image: mysql:8.0
     container_name: umc_9th_mysql_container
     environment:
-      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_PASSWORD: ingosa30
       MYSQL_DATABASE: umc_9th
-      MYSQL_USER: root
-      MYSQL_PASSWORD: ingosa30
     ports:
       - "3306:3306"
     volumes:
