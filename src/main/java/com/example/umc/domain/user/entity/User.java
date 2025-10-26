@@ -16,6 +16,7 @@ import lombok.experimental.SuperBuilder;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "users")
@@ -72,6 +73,9 @@ public class User extends BaseEntity {
   @Column(name = "is_verified")
   @Builder.Default
   private Boolean isVerified = false;
+
+  @Column(name = "deleted_at")
+  private LocalDateTime deletedAt;
 
   // 연관관계 매핑
   @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
