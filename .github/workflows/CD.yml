@@ -1,9 +1,10 @@
 name: CD with Gradle
 
-on:
-  push:
-    branches:
-      - develop
+# DISABLED: AWS 계정 삭제로 인한 CI/CD 비활성화
+# on:
+#   push:
+#     branches:
+#       - develop
 
 jobs:
   build-and-push:

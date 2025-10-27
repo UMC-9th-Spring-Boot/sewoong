@@ -1,14 +1,15 @@
 name: CI with Gradle
 
-on:
-  push:
-    branches-ignore:
-      - main
-      - develop
-
-  pull_request:
-    branches:
-      - develop
+# DISABLED: AWS 계정 삭제로 인한 CI/CD 비활성화
+# on:
+#   push:
+#     branches-ignore:
+#       - main
+#       - develop
+#
+#   pull_request:
+#     branches:
+#       - develop
 
 jobs:
   CI:
