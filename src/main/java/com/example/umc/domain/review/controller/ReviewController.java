@@ -3,6 +3,7 @@ package com.example.umc.domain.review.controller;
 import com.example.umc.domain.review.dto.ReviewResponseDto;
 import com.example.umc.domain.review.service.ReviewService;
 import com.example.umc.global.apiPayload.ApiResponse;
+import com.example.umc.global.apiPayload.code.status.SuccessStatus;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,6 +33,8 @@ public class ReviewController {
         .stream()
         .map(ReviewResponseDto::from)
         .collect(Collectors.toList());
-    return ApiResponse.onSuccess(reviews);
+
+    SuccessStatus code = SuccessStatus._OK;
+    return ApiResponse.onSuccess(code, reviews);
   }
 }
