@@ -18,6 +18,9 @@ public class SecurityConfig {
         .authorizeHttpRequests(authz -> authz
             // API 경로 허용
             .requestMatchers("/api/v1/reviews/**").permitAll()
+            .requestMatchers("/api/v1/stores/**").permitAll()
+            .requestMatchers("/api/v1/missions/**").permitAll()
+            .requestMatchers("/api/v1/members/**").permitAll()
             .requestMatchers("/temp/**").permitAll()
             .requestMatchers("/swagger-ui/**").permitAll()
             .requestMatchers("/v3/api-docs/**").permitAll()
