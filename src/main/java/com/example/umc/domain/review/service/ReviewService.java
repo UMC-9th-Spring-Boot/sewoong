@@ -3,7 +3,6 @@ package com.example.umc.domain.review.service;
 import com.example.umc.domain.review.entity.QReview;
 import com.example.umc.domain.review.entity.Review;
 import com.example.umc.domain.review.repository.ReviewRepository;
-import com.example.umc.domain.store.entity.QStore;
 import com.querydsl.core.BooleanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
