@@ -11,7 +11,7 @@ import java.lang.annotation.*;
 @Target({ ElementType.METHOD, ElementType.FIELD, ElementType.PARAMETER })
 @Retention(RetentionPolicy.RUNTIME)
 public @interface ExistStores {
-  // 여기서 디폴트 메시지를 설정합니다.
+  // 디폴트 메시지 생성
   String message() default "해당 가게가 존재하지 않습니다.";
 
   Class<?>[] groups() default {};

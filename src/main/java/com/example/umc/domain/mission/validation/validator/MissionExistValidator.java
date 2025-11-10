@@ -22,7 +22,7 @@ public class MissionExistValidator implements ConstraintValidator<ExistMissions,
 
     boolean isValid = missionRepository.existsById(value);
     if (!isValid) {
-      // 이 부분에서 아까 디폴트 메시지를 초기화 시키고, 새로운 메시지로 덮어씌우게 됩니다.
+      // 디폴트 메시지 초기화 및 새로운 메시지로 덮어씌우기
       context.disableDefaultConstraintViolation();
       context.buildConstraintViolationWithTemplate(MissionErrorCode.MISSION_NOT_FOUND.getMessage())
           .addConstraintViolation();
