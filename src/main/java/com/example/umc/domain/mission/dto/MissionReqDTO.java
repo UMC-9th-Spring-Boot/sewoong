@@ -15,4 +15,8 @@ public class MissionReqDTO {
                         Long missionMoney,
                         Long missionPoint) {
         }
+
+        public record CompleteMissionDTO(
+                        Long challengeMissionId) {
+        }
 }
