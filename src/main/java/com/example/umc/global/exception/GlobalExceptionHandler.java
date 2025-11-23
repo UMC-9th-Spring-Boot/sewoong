@@ -68,10 +68,21 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
   protected ResponseEntity<Object> handleExceptionInternal(Exception e, Object body,
       HttpHeaders headers, HttpStatusCode statusCode, WebRequest request) {
 
+    // body가 null인 경우 기본 에러 응답 반환
+    if (body == null) {
+      return handleExceptionInternalFalse(e,
+          ApiResponse.onFailure(
+              ErrorStatus._INTERNAL_SERVER_ERROR.getReasonHttpStatus().getCode(),
+              ErrorStatus._INTERNAL_SERVER_ERROR.getReasonHttpStatus().getMessage(),
+              null),
+          headers, statusCode, request, e.getMessage());
+    }
+
+    ErrorReasonDto errorReason = (ErrorReasonDto) body;
     return handleExceptionInternalFalse(e, ApiResponse.onFailure(
-        ((ErrorReasonDto) body).getCode(),
-        ((ErrorReasonDto) body).getMessage(),
-        null), headers, statusCode, request, ((ErrorReasonDto) body).getMessage());
+        errorReason.getCode(),
+        errorReason.getMessage(),
+        null), headers, statusCode, request, errorReason.getMessage());
   }
 
   private ResponseEntity<Object> handleExceptionInternalArgs(Exception e, HttpHeaders headers,
