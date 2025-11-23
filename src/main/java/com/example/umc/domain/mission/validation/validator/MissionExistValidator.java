@@ -1,7 +1,7 @@
 package com.example.umc.domain.mission.validation.validator;
 
 import com.example.umc.domain.mission.exception.code.MissionErrorCode;
-import com.example.umc.domain.mission.repository.MissionRepository;
+import com.example.umc.domain.mission.service.MissionQueryService;
 import com.example.umc.domain.mission.validation.ExistMissions;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class MissionExistValidator implements ConstraintValidator<ExistMissions, Long> {
 
-  private final MissionRepository missionRepository;
+  private final MissionQueryService missionQueryService;
 
   @Override
   public boolean isValid(Long value, ConstraintValidatorContext context) {
@@ -20,7 +20,7 @@ public class MissionExistValidator implements ConstraintValidator<ExistMissions,
       return true; // null은 @NotNull로 처리
     }
 
-    boolean isValid = missionRepository.existsById(value);
+    boolean isValid = missionQueryService.existsById(value);
     if (!isValid) {
       // 디폴트 메시지 초기화 및 새로운 메시지로 덮어씌우기
       context.disableDefaultConstraintViolation();
