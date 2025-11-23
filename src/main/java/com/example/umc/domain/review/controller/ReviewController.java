@@ -1,18 +1,24 @@
 package com.example.umc.domain.review.controller;
 
+import com.example.umc.domain.review.converter.ReviewConverter;
 import com.example.umc.domain.review.dto.ReviewReqDTO;
 import com.example.umc.domain.review.dto.ReviewResDTO;
 import com.example.umc.domain.review.dto.ReviewResponseDto;
+import com.example.umc.domain.review.entity.Review;
 import com.example.umc.domain.review.exception.code.ReviewSuccessCode;
 import com.example.umc.domain.review.service.ReviewCommandService;
+import com.example.umc.domain.review.service.ReviewQueryService;
 import com.example.umc.domain.review.service.ReviewService;
 import com.example.umc.global.apiPayload.ApiResponse;
 import com.example.umc.global.apiPayload.code.status.SuccessStatus;
+import com.example.umc.global.validation.CheckPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,11 +27,13 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/v1/reviews")
 @RequiredArgsConstructor
+@Validated
 @Tag(name = "리뷰", description = "리뷰 관련 API")
 public class ReviewController {
 
   private final ReviewService reviewService;
   private final ReviewCommandService reviewCommandService;
+  private final ReviewQueryService reviewQueryService;
 
   // 리뷰 작성
   @PostMapping("")
@@ -52,5 +60,18 @@ public class ReviewController {
 
     SuccessStatus code = SuccessStatus._OK;
     return ApiResponse.onSuccess(code, reviews);
+  }
+
+  @GetMapping("/my")
+  @Operation(summary = "내가 작성한 리뷰 목록 조회",
+             description = "로그인한 사용자가 작성한 모든 리뷰를 페이지 기반 페이징하여 조회합니다. 한 페이지에 10개씩 조회됩니다.")
+  public ApiResponse<ReviewResDTO.ReviewPreViewListDTO> getMyReviewList(
+          @Parameter(description = "사용자 ID", required = true) @RequestParam Long userId,
+          @Parameter(description = "페이지 번호 (1 이상)", required = true, example = "1")
+          @RequestParam(defaultValue = "1") @CheckPage Integer page
+  ) {
+    Page<Review> reviewPage = reviewQueryService.getMyReviews(userId, page);
+    ReviewResDTO.ReviewPreViewListDTO response = ReviewConverter.toReviewPreViewListDTO(reviewPage);
+    return ApiResponse.onSuccess(SuccessStatus._OK, response);
   }
 }

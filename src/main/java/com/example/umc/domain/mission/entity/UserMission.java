@@ -49,4 +49,12 @@ public class UserMission extends BaseEntity {
 
   @Column(name = "success_id", length = 100)
   private String successId;
+
+  // 미션 상태를 완료로 변경
+  public void updateStatus(UserMissionStatus status) {
+    this.status = status;
+    if (status == UserMissionStatus.COMPLETED) {
+      this.completedAt = java.time.LocalDateTime.now();
+    }
+  }
 }
