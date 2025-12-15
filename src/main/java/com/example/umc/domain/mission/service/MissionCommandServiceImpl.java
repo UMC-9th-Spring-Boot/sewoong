@@ -5,6 +5,7 @@ import com.example.umc.domain.mission.dto.MissionReqDTO;
 import com.example.umc.domain.mission.dto.MissionResDTO;
 import com.example.umc.domain.mission.entity.Mission;
 import com.example.umc.domain.mission.entity.UserMission;
+import com.example.umc.domain.mission.enums.UserMissionStatus;
 import com.example.umc.domain.mission.exception.MissionException;
 import com.example.umc.domain.mission.exception.code.MissionErrorCode;
 import com.example.umc.domain.mission.repository.MissionRepository;
@@ -41,15 +42,7 @@ public class MissionCommandServiceImpl implements MissionCommandService {
         Mission mission = missionRepository.findById(dto.missionId())
                 .orElseThrow(() -> new MissionException(MissionErrorCode.MISSION_NOT_FOUND));
 
-        // 가게 정보는 미션에서 가져옴
         Store store = mission.getStore();
-
-        // 이미 도전 중인 미션인지 확인 (선택적 - 필요시 구현)
-        // boolean alreadyChallenged =
-        // userMissionRepository.existsByUserAndMission(user, mission);
-        // if (alreadyChallenged) {
-        // throw new MissionException(MissionErrorCode.MISSION_ALREADY_CHALLENGED);
-        // }
 
         // UserMission 엔티티 생성
         UserMission userMission = MissionConverter.toUserMission(mission, user, store);
@@ -76,5 +69,27 @@ public class MissionCommandServiceImpl implements MissionCommandService {
 
         // 응답 DTO 생성
         return MissionConverter.toCreateMissionDTO(mission);
+    }
+
+    @Override
+    @Transactional
+    public MissionResDTO.CompleteMissionDTO completeMission(MissionReqDTO.CompleteMissionDTO dto) {
+        // UserMission 조회
+        UserMission userMission = userMissionRepository.findById(dto.challengeMissionId())
+                .orElseThrow(() -> new MissionException(MissionErrorCode.MISSION_NOT_FOUND));
+
+        // 진행중인 미션인지 확인
+        if (userMission.getStatus() != UserMissionStatus.IN_PROGRESS) {
+            throw new MissionException(MissionErrorCode.MISSION_ALREADY_COMPLETED);
+        }
+
+        // 상태를 완료로 변경
+        userMission.updateStatus(UserMissionStatus.COMPLETED);
+
+        // DB 저장
+        userMissionRepository.save(userMission);
+
+        // 변경된 미션을 조회하여 응답 DTO 생성
+        return MissionConverter.toCompleteMissionDTO(userMission);
     }
 }

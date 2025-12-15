@@ -9,8 +9,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-
 @Repository
 public interface MissionRepository extends JpaRepository<Mission, Long> {
   // 1. 홈 화면 미션 목록 조회 - 사용자가 아직 수행하지 않은 특정 지역 미션 조회
@@ -39,16 +37,11 @@ public interface MissionRepository extends JpaRepository<Mission, Long> {
       @Param("region") Region region,
       Pageable pageable);
 
-  // 2. 홈 화면 미션 목록 조회 - 커서 방식 페이징 (다음 페이지)
   @Query("SELECT m FROM Mission m " +
-      "JOIN FETCH m.store s " +
-      "LEFT JOIN UserMission um ON m.missionId = um.mission.missionId AND um.user.userId = :userId " +
-      "WHERE m.region = :region " +
-      "AND um.mission.missionId IS NULL " +
-      "AND m.missionId < :cursor " +
+      "WHERE m.store.storeId = :storeId " +
       "ORDER BY m.missionId DESC")
-  List<Mission> findAvailableMissionsNextPage(@Param("userId") Long userId,
-      @Param("region") Region region,
-      @Param("cursor") Long cursor,
-      Pageable pageable);
+  Page<Mission> findByStoreStoreId(
+      @Param("storeId") Long storeId,
+      Pageable pageable
+  );
 }

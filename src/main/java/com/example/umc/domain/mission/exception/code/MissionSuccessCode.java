@@ -12,6 +12,7 @@ public enum MissionSuccessCode implements BaseCode {
 
     MISSION_CHALLENGED(HttpStatus.CREATED, "MISSION201_1", "미션 도전이 성공적으로 등록되었습니다."),
     MISSION_CREATED(HttpStatus.CREATED, "MISSION201_2", "미션이 성공적으로 생성되었습니다."),
+    MISSION_COMPLETED(HttpStatus.OK, "MISSION200_1", "미션이 성공적으로 완료되었습니다."),
     ;
 
     private final HttpStatus status;
