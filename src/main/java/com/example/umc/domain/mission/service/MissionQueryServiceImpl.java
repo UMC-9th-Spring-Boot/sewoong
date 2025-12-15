@@ -31,8 +31,8 @@ public class MissionQueryServiceImpl implements MissionQueryService {
     }
 
     @Override
-    public Page<UserMission> getMyOngoingMissions(Long userId, Integer page) {
+    public Page<UserMission> getUserMissionsByStatus(Long userId, UserMissionStatus status, Integer page) {
         PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return userMissionRepository.findUserMissionsByStatus(userId, UserMissionStatus.IN_PROGRESS, pageRequest);
+        return userMissionRepository.findUserMissionsByStatus(userId, status, pageRequest);
     }
 }

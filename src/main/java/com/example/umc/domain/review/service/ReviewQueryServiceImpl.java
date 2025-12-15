@@ -3,6 +3,7 @@ package com.example.umc.domain.review.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,7 +19,7 @@ public class ReviewQueryServiceImpl implements ReviewQueryService {
 
     @Override
     public Page<Review> getMyReviews(Long userId, Integer page) {
-        PageRequest pageRequest = PageRequest.of(page - 1, 10);
-        return reviewRepository.findByUserUserId(userId, pageRequest);
+        PageRequest pageRequest = PageRequest.of(page - 1, 10, Sort.by("reviewId").descending());
+        return reviewRepository.findByUserUserIdOrderByReviewIdDesc(userId, pageRequest);
     }
 }

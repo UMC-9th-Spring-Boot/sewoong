@@ -33,8 +33,7 @@ public class MissionController {
     @PostMapping("/challenge")
     @Operation(summary = "미션 도전하기", description = "가게의 미션을 도전 중인 미션에 추가합니다.")
     public ApiResponse<MissionResDTO.ChallengeMissionDTO> challengeMission(
-            @RequestBody @Valid MissionReqDTO.ChallengeMissionDTO dto
-    ) {
+            @RequestBody @Valid MissionReqDTO.ChallengeMissionDTO dto) {
         MissionResDTO.ChallengeMissionDTO response = missionCommandService.challengeMission(dto);
         return ApiResponse.onSuccess(MissionSuccessCode.MISSION_CHALLENGED, response);
     }
@@ -43,45 +42,39 @@ public class MissionController {
     @PostMapping("")
     @Operation(summary = "미션 추가", description = "가게에 미션을 추가합니다.")
     public ApiResponse<MissionResDTO.CreateMissionDTO> createMission(
-            @RequestBody @Valid MissionReqDTO.CreateMissionDTO dto
-    ) {
+            @RequestBody @Valid MissionReqDTO.CreateMissionDTO dto) {
         MissionResDTO.CreateMissionDTO response = missionCommandService.createMission(dto);
         return ApiResponse.onSuccess(MissionSuccessCode.MISSION_CREATED, response);
     }
 
     @GetMapping("/stores/{storeId}")
-    @Operation(summary = "특정 가게의 미션 목록 조회",
-               description = "특정 가게의 모든 미션을 페이지 기반 페이징하여 조회합니다. 한 페이지에 10개씩 조회됩니다.")
+    @Operation(summary = "특정 가게의 미션 목록 조회", description = "특정 가게의 모든 미션을 페이지 기반 페이징하여 조회합니다. 한 페이지에 10개씩 조회됩니다.")
     public ApiResponse<MissionResDTO.MissionPreViewListDTO> getStoreMissionList(
             @Parameter(description = "가게 ID", required = true) @PathVariable Long storeId,
-            @Parameter(description = "페이지 번호 (1 이상)", required = true, example = "1")
-            @RequestParam(defaultValue = "1") @CheckPage Integer page
-    ) {
+            @Parameter(description = "페이지 번호 (1 이상)", required = true, example = "1") @RequestParam(defaultValue = "1") @CheckPage Integer page) {
         Page<Mission> missionPage = missionQueryService.getStoreMissions(storeId, page);
         MissionResDTO.MissionPreViewListDTO response = MissionConverter.toMissionPreViewListDTO(missionPage);
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
 
     @GetMapping("/my-ongoing")
-    @Operation(summary = "내가 진행중인 미션 목록 조회",
-               description = "로그인한 사용자가 진행중인 미션을 페이지 기반 페이징하여 조회합니다. 한 페이지에 10개씩 조회됩니다.")
+    @Operation(summary = "내가 진행중인 미션 목록 조회", description = "로그인한 사용자가 진행중인 미션을 페이지 기반 페이징하여 조회합니다. 한 페이지에 10개씩 조회됩니다.")
     public ApiResponse<MissionResDTO.UserMissionPreViewListDTO> getMyOngoingMissionList(
             @Parameter(description = "사용자 ID", required = true) @RequestParam Long userId,
-            @Parameter(description = "페이지 번호 (1 이상)", required = true, example = "1")
-            @RequestParam(defaultValue = "1") @CheckPage Integer page
-    ) {
-        Page<com.example.umc.domain.mission.entity.UserMission> userMissionPage = missionQueryService.getMyOngoingMissions(userId, page);
-        MissionResDTO.UserMissionPreViewListDTO response = MissionConverter.toUserMissionPreViewListDTO(userMissionPage);
+            @Parameter(description = "페이지 번호 (1 이상)", required = true, example = "1") @RequestParam(defaultValue = "1") @CheckPage Integer page) {
+        Page<com.example.umc.domain.mission.entity.UserMission> userMissionPage = missionQueryService
+                .getUserMissionsByStatus(userId, com.example.umc.domain.mission.enums.UserMissionStatus.IN_PROGRESS,
+                        page);
+        MissionResDTO.UserMissionPreViewListDTO response = MissionConverter
+                .toUserMissionPreViewListDTO(userMissionPage);
         return ApiResponse.onSuccess(SuccessStatus._OK, response);
     }
 
     // 진행중인 미션 완료 처리
     @PatchMapping("/complete")
-    @Operation(summary = "진행중인 미션 완료 처리",
-               description = "진행중인 미션을 완료 상태로 변경하고, 변경된 미션 정보를 조회하여 반환합니다.")
+    @Operation(summary = "진행중인 미션 완료 처리", description = "진행중인 미션을 완료 상태로 변경하고, 변경된 미션 정보를 조회하여 반환합니다.")
     public ApiResponse<MissionResDTO.CompleteMissionDTO> completeMission(
-            @RequestBody @Valid MissionReqDTO.CompleteMissionDTO dto
-    ) {
+            @RequestBody @Valid MissionReqDTO.CompleteMissionDTO dto) {
         MissionResDTO.CompleteMissionDTO response = missionCommandService.completeMission(dto);
         return ApiResponse.onSuccess(MissionSuccessCode.MISSION_COMPLETED, response);
     }

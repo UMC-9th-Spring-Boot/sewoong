@@ -23,10 +23,8 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
   List<Review> searchMyReviews(Predicate predicate);
 
   @Query("SELECT r FROM Review r " +
-      "WHERE r.user.userId = :userId " +
-      "ORDER BY r.reviewId DESC")
-  Page<Review> findByUserUserId(
+      "WHERE r.user.userId = :userId")
+  Page<Review> findByUserUserIdOrderByReviewIdDesc(
       @Param("userId") Long userId,
-      Pageable pageable
-  );
+      Pageable pageable);
 }

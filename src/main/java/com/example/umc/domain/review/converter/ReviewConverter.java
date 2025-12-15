@@ -5,6 +5,8 @@ import com.example.umc.domain.review.dto.ReviewResDTO;
 import com.example.umc.domain.review.entity.Review;
 import com.example.umc.domain.store.entity.Store;
 import com.example.umc.domain.user.entity.User;
+import com.example.umc.global.apiPayload.dto.PagingInfoDTO;
+import com.example.umc.global.common.util.PageUtil;
 import org.springframework.data.domain.Page;
 
 import java.util.List;
@@ -46,14 +48,16 @@ public class ReviewConverter {
                 .map(ReviewConverter::toReviewPreViewDTO)
                 .toList();
 
+        PagingInfoDTO pagingInfo = PageUtil.toPagingInfo(reviewPage);
+
         return ReviewResDTO.ReviewPreViewListDTO.builder()
                 .reviewList(reviewList)
                 .listSize(reviewList.size())
-                .currentPage(reviewPage.getNumber() + 1) // 0-based를 1-based로 변환
-                .totalPages(reviewPage.getTotalPages())
-                .totalElements(reviewPage.getTotalElements())
-                .isFirst(reviewPage.isFirst())
-                .isLast(reviewPage.isLast())
+                .currentPage(pagingInfo.currentPage())
+                .totalPages(pagingInfo.totalPages())
+                .totalElements(pagingInfo.totalElements())
+                .isFirst(pagingInfo.isFirst())
+                .isLast(pagingInfo.isLast())
                 .build();
     }
 }
