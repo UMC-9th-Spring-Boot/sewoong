@@ -9,6 +9,7 @@ import com.example.umc.domain.mission.entity.UserMission;
 import com.example.umc.domain.review.entity.Review;
 import com.example.umc.domain.notification.entity.Notification;
 import com.example.umc.global.common.BaseEntity;
+import com.example.umc.global.auth.Role;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -66,6 +67,12 @@ public class User extends BaseEntity {
 
   @Column(name = "email", length = 255)
   private String email;
+
+  @Column(nullable = false)
+  private String password;
+
+  @Enumerated(EnumType.STRING)
+  private Role role;
 
   @Column(name = "phone", length = 100)
   private String phone;

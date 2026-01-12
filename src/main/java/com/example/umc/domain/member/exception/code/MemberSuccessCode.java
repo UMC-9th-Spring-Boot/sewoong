@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 public enum MemberSuccessCode implements BaseCode {
 
     MEMBER_CREATED(HttpStatus.CREATED, "MEMBER201_1", "성공적으로 사용자가 생성되었습니다."),
+    MEMBER_LOGIN_SUCCESS(HttpStatus.OK, "MEMBER200_1", "로그인에 성공했습니다."),
     ;
 
     private final HttpStatus status;
